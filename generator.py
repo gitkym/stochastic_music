@@ -12,12 +12,12 @@ class Note:
 def generator(notes, pitch_weights=None, octave_weights=None, duration_weights=None, length=1, tpb=480, 
               duration='fixed', velocity = 'fixed', 
               sd=0.064, rest_probability=0.16):
+    
     if pitch_weights is None:
         pitch_weights = {note: 1 for note in notes}  # set all weights to 1 if not specified
     if octave_weights is None:
         octave_weights = {octave: 1 for octave in range(0, 9)}  # set all weights to 1 if not specified
 
-    # dur = tpb
     durations = tpb*np.logspace(-5, 2, num=8, base=2) # duration of the note from 1/32 to 4
     if duration_weights is None:
         duration_weights = {duration: 1 for duration in durations}  # set all weights to 1 if not specified
@@ -29,7 +29,7 @@ def generator(notes, pitch_weights=None, octave_weights=None, duration_weights=N
         octave = random.choices(range(0, 9), weights=octave_weights)[0]
         # Choose a random note from the given notes with the given weights
         pitch = random.choices(notes, weights=pitch_weights)[0]
-        dur = random.choices(durations, weights=duration_weights)[0]
+        dur = int(random.choices(durations, weights=duration_weights)[0])
         # Check for variables
         if duration == 'variable':
             dur = int(random.normalvariate(dur, dur * sd))
@@ -38,9 +38,8 @@ def generator(notes, pitch_weights=None, octave_weights=None, duration_weights=N
         # Introduce rests with a certain probability
         if random.random() < rest_probability:
             sequence.append(Note(pitch=0, octave=0, duration=dur, velocity=0))
-        else:
-            # Add the chosen note to the sequence
-            sequence.append(Note(pitch=pitch, octave=octave, duration=dur, velocity=vel))
+        # Append the note to the sequence
+        sequence.append(Note(pitch=pitch, octave=octave, duration=dur, velocity=vel))
 
     midi_notes = []
 
