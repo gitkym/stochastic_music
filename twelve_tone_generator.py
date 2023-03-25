@@ -53,7 +53,6 @@ def twelve_tone(prime_row, octave_weights=None, duration_weights=None, length=1,
 
     if octave_weights is None:
         octave_weights = {octave: 1 for octave in range(0, 9)}  # set all weights to 1 if not specified
-    # dur = tpb
     durations = tpb*np.logspace(-5, 2, num=8, base=2) # duration of the note from 1/32 to 4
     if duration_weights is None:
         duration_weights = {duration: 1 for duration in durations}  # set all weights to 1 if not specified
