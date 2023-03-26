@@ -9,20 +9,19 @@ class Note:
         self.duration = int(duration)
         self.velocity = int(velocity)
 ####################################
+def transpose(row, interval, direction='up'):
+    if direction == 'up':
+        return [(note+interval)%12 for note in row]
+    else:
+        return [(note-interval)%12 for note in row]
+def invert(row):
+    return [(12-note)%12 for note in row]
+####################################
 class TwelveTone:
     def __init__(self, prime_row):
         self.prime_row = prime_row
         self.matrix = self.gen_matrix(prime_row)
         self.choices = self.create_choices()
-
-    def transpose(self, row, interval, direction='up'):
-        if direction == 'up':
-            return [(note+interval)%12 for note in row]
-        else:
-            return [(note-interval)%12 for note in row]
-        
-    def invert(self, row):
-        return [(12-note)%12 for note in row]
 
     def gen_matrix(self, row):
         """Generate a matrix from a row"""
