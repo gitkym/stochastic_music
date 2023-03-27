@@ -32,14 +32,14 @@ class TwelveTone:
             raise ValueError("Please enter a 12 tone row")
         # create 12-tone matrix
         if row[0]!=0:     # if first note is not 0, transpose the row so it is 0
-            row = self.transpose(row, row[0], direction='down')
+            row = transpose(row, row[0], direction='down')
 
         matrix = np.zeros((12, 12))
         matrix[0,:] = row
-        inverse = self.invert(row)
+        inverse = invert(row)
 
         for i, d in zip(range(1,12), inverse[1:]):
-            matrix[i,:] = self.transpose(matrix[i-1,:], d, direction='up')
+            matrix[i,:] = transpose(matrix[i-1,:], d, direction='up')
         return matrix
 
     def create_choices(self):
