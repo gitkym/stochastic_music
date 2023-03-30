@@ -19,6 +19,7 @@ Studying and teaching the principles of serial composition in music theory and c
 Example usage:
 
 '''
+
 import any_tone
 
 row = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
@@ -34,6 +35,7 @@ mid.tracks.append(track)
 for note in midi_notes:
     track.append(note)
 mid.save(midi_path)
+
 '''
 
 
