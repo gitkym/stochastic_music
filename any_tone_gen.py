@@ -18,12 +18,13 @@ def transpose(row, interval, direction='up'):
     else:
         # Shift each element down in the row by the number of movements specified by the interval
         transposed_row = np.roll(row, -interval)
-    return transposed_row.tolist()
+    return transposed_row
 def invert(row):
     '''modify invert function to work with any row'''
     r = len(row)
     # first and middle note are the same, rest are mapped
     forward = [r for r in set(row)]
+    forward = forward + [forward[0]]
     backward = reversed(forward)
     mapping = dict(zip(forward, backward))
     return [mapping[note] for note in row]
@@ -37,18 +38,20 @@ class TwelveTone:
     def gen_matrix(self, row):
         r = len(row)
         """Generate a matrix from a row"""
-        if len(row)!=len(set(row)):
+        if r!=len(set(row)):
             raise ValueError("Please enter a tone row")
         # create tone matrix
-        if row[0]!=0:     # if first note is not 0, transpose the row so it is 0
-            row = transpose(row, row[0], direction='down')
+        # if row[0]!=0:     # if first note is not 0, transpose the row so it is 0
+        #     row = transpose(row, row[0], direction='down')
 
-        matrix = np.zeros((len(row), len(row)))
+        matrix = np.zeros((r, r))
         matrix[0,:] = row
-        inverse = invert(row)
+        matrix[:,0] = invert(row)
 
-        for i, d in zip(range(1,r), inverse[1:]):
-            matrix[i,:] = transpose(matrix[i-1,:], d, direction='up')
+        for i in range(1, r):
+            position = row.index(matrix[i,0])
+            matrix[i,:] = transpose(row, position, direction='down')
+
         return matrix
 
     def create_choices(self):
