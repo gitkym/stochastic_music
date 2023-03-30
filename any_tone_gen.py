@@ -11,7 +11,6 @@ class Note:
 ####################################
 def transpose(row, interval, direction='up'):
     '''modify transpose function to work with any row'''
-    r = len(row)
     if direction == 'up':
         # Shift each element up in the row by the number of movements specified by the interval
         transposed_row = np.roll(row, interval)
@@ -21,7 +20,6 @@ def transpose(row, interval, direction='up'):
     return transposed_row
 def invert(row):
     '''modify invert function to work with any row'''
-    r = len(row)
     # first and middle note are the same, rest are mapped
     forward = [r for r in set(row)]
     forward = forward + [forward[0]]

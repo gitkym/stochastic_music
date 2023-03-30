@@ -37,9 +37,10 @@ class TwelveTone:
         matrix = np.zeros((12, 12))
         matrix[0,:] = row
         inverse = invert(row)
+        matrix[:,0] = inverse
 
         for i, d in zip(range(1,12), inverse[1:]):
-            matrix[i,:] = transpose(matrix[i-1,:], d, direction='up')
+            matrix[i,1:] = transpose(matrix[0,1:], d, direction='up')
         return matrix
 
     def create_choices(self):
@@ -49,6 +50,10 @@ class TwelveTone:
         retrograde_inverses = [self.matrix[::-1,i] for i in range(12)]
 
         choices = rows + inverses + retrogrades + retrograde_inverses
+        # ensure choices are unique otherwise raise error
+        for row in choices:
+            if len(row)!=len(set(row)):
+                raise ValueError("Please enter a 12 tone row")
         return choices
         
     def generator(self, octave_weights=None, duration_weights=None, length=1, tpb=480, 
