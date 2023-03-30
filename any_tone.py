@@ -10,14 +10,24 @@ class Note:
         self.velocity = int(velocity)
 ####################################
 def transpose(row, interval, direction='up'):
-    # r = len(row)
+    '''modify transpose function to work with any row'''
+    r = len(row)
     if direction == 'up':
-        return [(note+interval)%12 for note in row]
+        # Shift each element up in the row by the number of movements specified by the interval
+        transposed_row = np.roll(row, interval)
     else:
-        return [(note-interval)%12 for note in row]
+        # Shift each element down in the row by the number of movements specified by the interval
+        transposed_row = np.roll(row, -interval)
+    return transposed_row.tolist()
 def invert(row):
-    # r = len(row)
-    return [(12-note)%12 for note in row]
+    '''modify invert function to work with any row'''
+    r = len(row)
+    # first and middle note are the same, rest are mapped
+    forward = [r for r in set(row)]
+    backward = reversed(forward)
+    mapping = dict(zip(forward, backward))
+    return [mapping[note] for note in row]
+
 ####################################
 class TwelveTone:
     def __init__(self, prime_row):
@@ -28,9 +38,6 @@ class TwelveTone:
     def gen_matrix(self, row):
         r = len(row)
         """Generate a matrix from a row"""
-        # for p in row: 
-        #     if p not in range(0, r):
-        #         raise ValueError("Please enter a tone row")
         if len(row)!=len(set(row)):
             raise ValueError("Please enter a tone row")
         # create tone matrix
@@ -53,6 +60,11 @@ class TwelveTone:
         retrograde_inverses = [self.matrix[::-1,i] for i in range(r)]
 
         choices = rows + inverses + retrogrades + retrograde_inverses
+        # check if any note in not in original row
+        for row in choices:
+           for note in row:
+              if note not in self.prime_row:
+                 raise ValueError("Please enter a tone row")               
         return choices
         
     def generator(self, octave_weights=None, duration_weights=None, length=1, tpb=480, 
