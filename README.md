@@ -22,6 +22,7 @@ pip install -r requirements.txt
 Example usage:
 
 ```
+import mido
 import twelve_tone_gen as twelve_tone
 
 prime_row = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
