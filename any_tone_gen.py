@@ -91,6 +91,10 @@ class TwelveTone:
                     dur = int(random.normalvariate(dur, dur * sd))
                 if velocity == 'variable':
                     vel = int(random.normalvariate(64, 64 * sd))
+                    if vel>127:     # velocity cannot be greater than 127
+                        vel = 127
+                    if vel<0:
+                        vel = 0
                 # Introduce rests with a certain probability
                 if random.random() < rest_probability:
                     sequence.append(Note(pitch=0, octave=0, duration=dur, velocity=0))
