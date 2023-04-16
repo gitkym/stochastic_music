@@ -14,6 +14,8 @@ any_tone_gen.py is a modified version that works with any scale. The demo notebo
 
 Although the sequences are generated using the twelve tone method, my implemetation imposes the same randomness on the octave, duration and velocity of each note. Additionally, successive sequences are constructed from rows randomly chosen from the matrix constructed from the prime row. 
 
+chords_test.py is an experimental script that introduces a possibility of chords within 12 tone rows. chord_prob and max_chord_size can be set according to desired effect and instrument. A demo of this is in chords_demo.ipynb.
+
 ## Installation:
 ```
 pip install -r requirements.txt
