@@ -106,7 +106,7 @@ class TwelveTone:
         return choices
     
     def generator(self, octave_weights=None, duration_weights=None, length=1, tpb=480,
-                           duration='fixed', velocity='fixed', sd=0.064, 
+                           duration='fixed', velocity='fixed', dur_sd=0.064, vel_sd=0.064, 
                            rest_probability=0.16, chord_probability=0.6, max_chord_size=5):
         """Generate a sequence of notes from the 12 tone matrix"""
         if octave_weights is None:
@@ -128,9 +128,9 @@ class TwelveTone:
                 dur = int(random.choices(durations, weights=duration_weights)[0])
                 # Check for variables
                 if duration == 'variable':
-                    dur = int(random.normalvariate(dur, dur * sd))
+                    dur = int(random.normalvariate(dur, dur * dur_sd))
                 if velocity == 'variable':
-                    vel = int(random.normalvariate(64, 64 * sd))
+                    vel = int(random.normalvariate(64, 64 * vel_sd))
                     if vel>127:     # velocity cannot be greater than 127
                         vel = 127
                     if vel<0:
