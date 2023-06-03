@@ -117,9 +117,12 @@ class TwelveTone:
         
         vel = 64
         sequences = []
+        choices = self.choices
         for _ in range(length):
             # Pick a random row from the list of choices
-            row = list(random.choice(self.choices))
+            row = list(random.choice(choices))
+            # row = list(random.choice(self.choices))
+
             sequence = []
             for no in row:
                 # Choose a random octave between 0 and 8
